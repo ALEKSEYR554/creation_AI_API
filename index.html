@@ -1,0 +1,63 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script language="JavaScript"> 
+            function check_pass()
+            {
+                var pass =document.getElementById("pass").value;
+                var login=document.getElementById("login").value;
+                if (pass=="1234"&&login=="1234")
+                    window.location.href = "1234.html";
+                else if (pass=="1111"&&login=="1111")
+                    window.location.href = "1111.html";
+                else if (pass=="2222"&&login=="2222")
+                    window.location.href = "2222.html";
+                else if (pass=="3333"&&login=="3333")
+                    window.location.href = "3333.html";
+                else alert("wrong");
+                
+            };
+            function httpGet(theUrl)
+            {
+                var pass =document.getElementById("pass").value;
+                var login=document.getElementById("login").value;
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", theUrl, true, login, pass ); // false for synchronous request
+                xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+                xmlHttp.send( null );
+                alert(xmlHttp.responseText);
+                return xmlHttp.responseText;
+            };
+        </script>
+        <form name="login_pass">
+        <input type="text" name="login" id="login"> <<- Введите Логин <BR>
+        <input type="password" name="pass" id="pass"> <<- Введите пароль <BR> 
+        </form>
+
+        <form name="params">
+            Tags:<input type="text" id="tags"><br>
+            Mode: <SELECT>
+                <OPTION value=a selected> DDIM
+                <OPTION value=b> Euler
+                <OPTION value=c> DPM++ SDE
+                </SELECT><br>
+            Num:<SELECT>
+                <OPTION value=a selected> 1
+                <OPTION value=b> 2
+                <OPTION value=c> 3
+                </SELECT><br>
+            Steps:<input type="number" min="15" max="50" value="30"/><br>
+            Seed:<input type="text" id="tags" value="-1">-1 for random<br> 
+            Scale:<input type="number" min="1" max="30" value="9"/><br><br>
+            Width:<input type="text" id="tags"><br>
+            Height:<input type="text" id="tags"><br>
+            Model:<input type="text" id="tags"><br>
+            Uc:<input type="text" id="tags"><br>
+        </form>
+        <input type="button" name="ch1" value="посмотреть результат" onclick='httpGet("https://creation.pyhdxy.top/api/modes")'> <BR>
+
+    </div>
+    </body>
+</html>
