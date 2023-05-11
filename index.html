@@ -1,7 +1,6 @@
 <html>
     <head>
 
-        
     </head>
     <body>
         <script language="JavaScript"> 
@@ -26,10 +25,70 @@
                 var login=document.getElementById("login").value;
                 var xmlHttp = new XMLHttpRequest();
                 xmlHttp.open( "GET", theUrl, true, login, pass ); // false for synchronous request
-                xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+                //xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+                //xmlHttp.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+                //xmlHttp.header('Access-Control-Allow-Credentials', 'true');
                 xmlHttp.send( null );
                 alert(xmlHttp.responseText);
                 return xmlHttp.responseText;
+            };
+            async function test(){
+                var pass =document.getElementById("pass").value;
+                var login=document.getElementById("login").value;
+
+
+                const myHeaders = new Headers();
+                //myHeaders.append('Authorization','Basic '+btoa((login) + ':' + (pass)));
+                const responce = await fetch("https://creation.pyhdxy.top/api/modes", {method:'GET', headers:myHeaders});
+                const data= await responce.json();
+                console.log(data.data.toString() );
+            };
+
+            function test2(){
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://creation.pyhdxy.top/api/draw");
+                const data={"height": 512,"mode": "DPM++ SDE","model": "Illustration3 (AbyssOrangeMix3)","num": 1,"scale": 8,"steps": 20,"tag": "masterpiece, best quality, (blond hair), (slums), (1girl), (bare chest), (medium chest), (nippleess)", "uc": "lowres, text, bad anatomy, bad hands, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurrystring","width": 512};
+                //xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+                var pass =document.getElementById("pass").value;
+                var login=document.getElementById("login").value;
+
+                console.log(pass+'__'+login+'='+btoa(login + ':' + pass));
+                xhr.setRequestHeader('Authorization','Basic '+btoa(login + ':' +pass));
+                const body = JSON.stringify(data);
+                xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 201) {
+                    console.log(JSON.parse(xhr.responseText));
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+                };
+                xhr.send(body);
+            };
+
+
+            //{    "height": 512,    "mode": "DPM++ SDE",    "model": "Illustration3 (AbyssOrangeMix3)",    "num": 1,    "scale": 8,    "steps": 20,    "tag": "masterpiece, best quality, (blond hair), (slums), (1girl), (bare chest), (medium chest), (nippleess)",    "uc": "lowres, text, bad anatomy, bad hands, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurrystring","width": 512},}
+            function draw(){
+                const data={"height": 512,"mode": "DPM++ SDE","model": "Illustration3 (AbyssOrangeMix3)","num": 1,"scale": 8,"steps": 20,"tag": "masterpiece, best quality, (blond hair), (slums), (1girl), (bare chest), (medium chest), (nippleess)", "uc": "lowres, text, bad anatomy, bad hands, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurrystring","width": 512};
+                var pass =document.getElementById("pass").value;
+                var login=document.getElementById("login").value;
+
+                const Header = new Headers();
+
+                Header.append('Authorization','Basic '+btoa((login) + ':' + (pass)));
+                Header.append('Content-Type','application/json');
+
+
+                //var authorizationBasic = window.btoa(login + ':' + pass);
+
+                var options={
+                    method: 'POST',
+                    headers: Header,
+                    body: JSON.stringify(data),
+                };
+                fetch('https://creation.pyhdxy.top/api/draw',options).then(responce=>{
+                    console.log(responce);
+                });
             };
         </script>
         <form name="login_pass">
@@ -57,8 +116,9 @@
             Model:<input type="text" id="tags"><br>
             Uc:<input type="text" id="tags"><br>
         </form>
-        <input type="button" name="ch1" value="посмотреть результат" onclick='httpGet("https://creation.pyhdxy.top/api/modes")'> <BR>
-
+        <input type="button" name="ch1" value="test" onclick='test()'> <BR><br><br>
+        <input type="button" name="ch1" value="draw" onclick='draw()'> <BR><br><br>
+        <input type="button" name="ch1" value="TEST2" onclick='test2()'> <BR><br><br>
     </div>
     </body>
 </html>
